@@ -1,0 +1,3 @@
+= Rusc
+
+A utility library for command line scripting
