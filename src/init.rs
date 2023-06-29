@@ -53,11 +53,3 @@ impl Default for RuscInitBuilder {
         Self { verbose: false }
     }
 }
-
-pub fn init(verbose: bool) {
-    let mut builder = RuscInitBuilder::default();
-    if verbose {
-        builder = builder.verbose();
-    }
-    builder.init();
-}
