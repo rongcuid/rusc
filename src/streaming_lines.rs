@@ -1,6 +1,6 @@
 use miette::*;
 
-use crate::{open_lines_input, open_lines_output, LineReader, LineWriter};
+use crate::lines::{open_lines_input, open_lines_output, LineReader, LineWriter};
 use indicatif::{MultiProgress, ProgressBar, ProgressStyle};
 use std::io::Write;
 use std::path::Path;
