@@ -10,7 +10,7 @@ pub trait HasRuscConfig {
 #[derive(Debug, Args, Default)]
 pub struct RuscConfig {
     #[arg(short, long, action = clap::ArgAction::Count, global = true)]
-    pub verbose: usize,
+    pub verbose: u8,
 }
 
 impl RuscConfig {
