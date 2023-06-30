@@ -3,13 +3,17 @@ use tracing::Level;
 use tracing_indicatif::IndicatifLayer;
 use tracing_subscriber::prelude::*;
 
+pub trait HasRuscConfig {
+    fn rusc_config<'a>(&'a self) -> &'a RuscConfig;
+}
+
 #[derive(Debug, Args, Default)]
-pub struct RuscCli {
+pub struct RuscConfig {
     #[arg(short, long, action = clap::ArgAction::Count, global = true)]
     pub verbose: usize,
 }
 
-impl RuscCli {
+impl RuscConfig {
     pub fn init(&self) {
         let indicatif_layer = IndicatifLayer::new();
         let max_level = match self.verbose {
