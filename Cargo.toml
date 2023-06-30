@@ -22,6 +22,8 @@ clap = { version = "^4", features = ["derive"] }
 indicatif = "^0.17"
 tracing-indicatif = "0.3"
 
+itertools = "0.11"
+
 # Serde
 serde = { version = "^1" }
 serde_json = { version = "^1" }
