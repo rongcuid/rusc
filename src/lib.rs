@@ -1,14 +1,15 @@
-use crate::init::RuscInitBuilder;
+use crate::cli::RuscCli;
 
-mod init;
+mod cli;
 mod lines;
 pub mod prelude;
-mod streaming_lines;
 
-pub fn init(verbose: bool) {
-    let mut builder = RuscInitBuilder::default();
-    if verbose {
-        builder = builder.verbose();
-    }
-    builder.init();
+/// Initializes tracing and indicatif
+pub fn init_from_cli(cli: &RuscCli) {
+    cli.init();
+}
+
+/// Initializes with default args
+pub fn init() {
+    RuscCli::default().init();
 }
