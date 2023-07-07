@@ -2,6 +2,7 @@ use clap::Args;
 use tracing::Level;
 use tracing_indicatif::IndicatifLayer;
 use tracing_subscriber::prelude::*;
+use tracing_subscriber::EnvFilter;
 
 pub trait HasRuscConfig {
     fn rusc_config<'a>(&'a self) -> &'a RuscConfig;
@@ -34,6 +35,7 @@ impl RuscConfig {
                     ),
             )
             .with(indicatif_layer)
+            .with(EnvFilter::from_default_env())
             .init();
     }
 }
