@@ -29,9 +29,7 @@ impl RuscConfig {
                     .without_time()
                     .compact()
                     .with_writer(
-                        indicatif_layer
-                            .get_stderr_writer()
-                            .with_max_level(max_level),
+                        indicatif_layer.get_stderr_writer(), // .with_max_level(max_level),
                     ),
             )
             .with(indicatif_layer)
