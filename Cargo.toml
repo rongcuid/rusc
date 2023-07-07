@@ -15,7 +15,7 @@ miette = { version = "^5", features = ["fancy"] }
 
 # Logs
 tracing = "^0.1"
-tracing-subscriber = "^0.3"
+tracing-subscriber = { version = "^0.3", features = ["env-filter"] }
 
 # Command line utils
 clap = { version = "^4", features = ["derive"] }
