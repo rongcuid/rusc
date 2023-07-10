@@ -24,16 +24,18 @@ impl RuscConfig {
             _ => Level::TRACE,
         };
         tracing_subscriber::registry()
+            .with(EnvFilter::from_default_env())
             .with(
                 tracing_subscriber::fmt::layer()
                     .without_time()
                     .compact()
                     .with_writer(
-                        indicatif_layer.get_stderr_writer(), // .with_max_level(max_level),
+                        indicatif_layer
+                            .get_stderr_writer()
+                            .with_max_level(max_level), // .with_max_level(max_level),
                     ),
             )
             .with(indicatif_layer)
-            .with(EnvFilter::from_default_env())
             .init();
     }
 }
