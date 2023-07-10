@@ -24,7 +24,6 @@ impl RuscConfig {
             _ => Level::TRACE,
         };
         tracing_subscriber::registry()
-            .with(EnvFilter::from_default_env())
             .with(
                 tracing_subscriber::fmt::layer()
                     .without_time()
