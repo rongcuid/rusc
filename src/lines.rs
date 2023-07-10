@@ -35,14 +35,14 @@ impl TryFrom<&Path> for FileFormat {
     }
 }
 
-pub fn open_lines_input(path: Option<impl AsRef<Path>>) -> Result<LineReader> {
+pub fn open_lines_input(path: Option<&Path>) -> Result<LineReader> {
     match path {
         // Stdin if no path specified
         None => Ok(Box::new(stdin().lines())),
         // Stdin if `-` is specified
-        Some(input) if input.as_ref().to_str() == Some("-") => Ok(Box::new(stdin().lines())),
+        Some(input) if input.to_str() == Some("-") => Ok(Box::new(stdin().lines())),
         // Otherwise, open file
-        Some(input) => match input.as_ref().try_into().unwrap() {
+        Some(input) => match input.try_into().unwrap() {
             FileFormat::Text => Ok(Box::new(
                 BufReader::new(File::open(input).into_diagnostic()?).lines(),
             )),
@@ -65,13 +65,11 @@ pub fn open_lines_input(path: Option<impl AsRef<Path>>) -> Result<LineReader> {
     }
 }
 
-pub fn open_lines_output(path: Option<impl AsRef<Path>>) -> Result<LineWriter> {
+pub fn open_lines_output(path: Option<&Path>) -> Result<LineWriter> {
     let writer: Box<dyn Write> = match path {
         None => Box::new(std::io::stdout()),
-        Some(output) if output.as_ref().to_str() == Some("-") => {
-            Box::new(BufWriter::new(std::io::stdout()))
-        }
-        Some(output) => match output.as_ref().try_into().unwrap() {
+        Some(output) if output.to_str() == Some("-") => Box::new(BufWriter::new(std::io::stdout())),
+        Some(output) => match output.try_into().unwrap() {
             FileFormat::Text => Box::new(BufWriter::new(File::create(output).into_diagnostic()?)),
             FileFormat::Gzip => Box::new(BufWriter::new(GzEncoder::new(
                 File::create(output).into_diagnostic()?,
