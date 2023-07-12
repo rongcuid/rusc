@@ -11,7 +11,7 @@ edition = "2021"
 [dependencies]
 # Errors
 thiserror = "^1"
-miette = { version = "^5", features = ["fancy"] }
+anyhow = "^1"
 
 # Logs
 tracing = "^0.1"
