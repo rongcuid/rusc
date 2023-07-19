@@ -5,7 +5,7 @@ use flate2::write::GzEncoder;
 use flate2::Compression;
 use std::ffi::OsStr;
 use std::fs::File;
-use std::io::{stdin, BufRead, BufReader, BufWriter, Write};
+use std::io::{stdin, stdout, BufRead, BufReader, BufWriter, Write};
 use std::path::Path;
 
 pub type LineReader = Box<dyn Iterator<Item = Result<String, std::io::Error>>>;
@@ -81,4 +81,11 @@ pub fn open_lines_output(path: Option<&Path>) -> Result<LineWriter> {
         },
     };
     Ok(writer)
+}
+
+pub fn create_or_stdout(path: Option<&Path>) -> Result<Box<dyn Write>> {
+    match path {
+        Some(p) => Ok(Box::new(File::create(p)?)),
+        None => Ok(Box::new(stdout())),
+    }
 }

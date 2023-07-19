@@ -1,14 +1,7 @@
-use anyhow::*;
-use std::{
-    fs::File,
-    io::{stdout, Write},
-    path::Path,
-};
-
 use crate::config::{HasRuscConfig, RuscConfig};
 
 mod config;
-mod lines;
+mod io;
 pub mod prelude;
 
 /// Initializes by parsing command line
@@ -24,11 +17,4 @@ where
 /// Initializes with default args
 pub fn init() {
     RuscConfig::default().init();
-}
-
-pub fn create_or_stdout(path: Option<&Path>) -> Result<Box<dyn Write>> {
-    match path {
-        Some(p) => Ok(Box::new(File::create(p)?)),
-        None => Ok(Box::new(stdout())),
-    }
 }
