@@ -78,7 +78,7 @@ pub fn open_lines_output(path: Option<&Path>) -> Result<LineWriter> {
             )),
             FileFormat::Zstd => Box::new(BufWriter::with_capacity(
                 1024 * 1024 * 16,
-                zstd::stream::write::Encoder::new(File::create(output)?, 0)?.auto_finish(),
+                zstd::stream::write::Encoder::new(File::create(output)?, 9)?.auto_finish(),
             )),
         },
     };
