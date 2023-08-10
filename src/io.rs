@@ -77,7 +77,7 @@ pub fn open_lines_output(path: Option<&Path>) -> Result<LineWriter> {
                 lz4_flex::frame::FrameEncoder::new(File::create(output)?).auto_finish(),
             )),
             FileFormat::Zstd => Box::new(BufWriter::new(
-                zstd::stream::write::Encoder::new(File::create(output)?, 0)?.auto_finish(),
+                zstd::stream::write::Encoder::new(File::create(output)?, 22)?.auto_finish(),
             )),
         },
     };
