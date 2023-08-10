@@ -69,16 +69,15 @@ pub fn open_lines_output(path: Option<&Path>) -> Result<LineWriter> {
         Some(output) if output.to_str() == Some("-") => Box::new(BufWriter::new(std::io::stdout())),
         Some(output) => match output.try_into().unwrap() {
             FileFormat::Text => Box::new(BufWriter::new(File::create(output)?)),
-            FileFormat::Gzip => Box::new(BufWriter::with_capacity(
-                1024 * 1024 * 16,
-                GzEncoder::new(File::create(output)?, Compression::default()),
-            )),
+            FileFormat::Gzip => Box::new(BufWriter::new(GzEncoder::new(
+                File::create(output)?,
+                Compression::default(),
+            ))),
             FileFormat::Lz4 => Box::new(BufWriter::new(
                 lz4_flex::frame::FrameEncoder::new(File::create(output)?).auto_finish(),
             )),
-            FileFormat::Zstd => Box::new(BufWriter::with_capacity(
-                1024 * 1024 * 16,
-                zstd::stream::write::Encoder::new(File::create(output)?, 9)?.auto_finish(),
+            FileFormat::Zstd => Box::new(BufWriter::new(
+                zstd::stream::write::Encoder::new(File::create(output)?, 0)?.auto_finish(),
             )),
         },
     };
