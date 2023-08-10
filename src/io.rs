@@ -25,6 +25,7 @@ impl TryFrom<&Path> for FileFormat {
         let ext = path.extension().and_then(OsStr::to_str).unwrap_or_default();
         match ext {
             "txt" => Ok(FileFormat::Text),
+            "csv" => Ok(FileFormat::Text),
             "json" => Ok(FileFormat::Text),
             "jsonl" => Ok(FileFormat::Text),
             "gz" => Ok(FileFormat::Gzip),

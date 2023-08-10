@@ -1,5 +1,5 @@
 use clap::Args;
-use tracing::Level;
+use tracing::{debug, Level};
 use tracing_indicatif::IndicatifLayer;
 use tracing_subscriber::{prelude::*, EnvFilter};
 
@@ -27,8 +27,11 @@ impl RuscConfig {
             .max_level_hint()
             .and_then(|l| l.into_level())
             .map_or(cli_max_level, |l| l.max(cli_max_level));
+        let env_filter = EnvFilter::builder()
+            .with_default_directive(max_level.into())
+            .from_env_lossy();
         tracing_subscriber::registry()
-            .with(EnvFilter::from_default_env())
+            .with(env_filter)
             .with(
                 tracing_subscriber::fmt::layer()
                     .without_time()
@@ -41,5 +44,6 @@ impl RuscConfig {
             )
             .with(indicatif_layer)
             .init();
+        debug!("Enabling log level: {}", max_level);
     }
 }
