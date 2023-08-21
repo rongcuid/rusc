@@ -1,7 +1,7 @@
 pub use crate::config::*;
 pub use crate::io::*;
 
-pub use anyhow::*;
+pub use anyhow::Result;
 pub use tracing::*;
 
 pub use clap;
