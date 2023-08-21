@@ -16,20 +16,16 @@ pub struct RuscConfig {
 impl RuscConfig {
     pub fn init(&self) {
         let indicatif_layer = IndicatifLayer::new();
-        let env = EnvFilter::from_default_env();
-        let cli_max_level = match self.verbose {
+        let max_level = match self.verbose {
             0 => Level::WARN,
             1 => Level::INFO,
             2 => Level::DEBUG,
             _ => Level::TRACE,
         };
-        let max_level = env
-            .max_level_hint()
-            .and_then(|l| l.into_level())
-            .map_or(cli_max_level, |l| l.max(cli_max_level));
+
         let env_filter = EnvFilter::builder()
-            .with_default_directive(max_level.into())
-            .from_env_lossy();
+            .from_env_lossy()
+            .add_directive(max_level.into());
         tracing_subscriber::registry()
             .with(env_filter)
             .with(
@@ -39,7 +35,7 @@ impl RuscConfig {
                     .with_writer(
                         indicatif_layer
                             .get_stderr_writer()
-                            .with_max_level(max_level), // .with_max_level(max_level),
+                            .with_max_level(Level::TRACE),
                     ),
             )
             .with(indicatif_layer)
